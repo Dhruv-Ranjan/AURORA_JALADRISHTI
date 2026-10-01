@@ -1,0 +1,438 @@
+{
+  "dataset": "dataset_seq_forecast_production_real.npz",
+  "device": "cuda",
+  "spectral_model_input": "spectral_v10_1_balanced.pt",
+  "spectral_model_output": "spectral_realworld_production.pt",
+  "drought_model_output": "drought_region_holdout_candidate.pt",
+  "spectral_epochs": 0,
+  "drought_epochs": 8,
+  "region_aware_split": false,
+  "region_holdout_split": true,
+  "fast_spectral_inference": true,
+  "best_threshold": 0.72,
+  "validation_metrics": {
+    "accuracy": 0.884393063583815,
+    "precision": 0.35,
+    "recall": 0.5,
+    "f1": 0.4117647058823529,
+    "tp": 7.0,
+    "tn": 146.0,
+    "fp": 13.0,
+    "fn": 7.0,
+    "auc": 0.7717879604672058,
+    "threshold": 0.72,
+    "physics_baseline": {
+      "accuracy": 0.9190751445086706,
+      "precision": 0.5,
+      "recall": 0.35714285714285715,
+      "f1": 0.41666666666666663,
+      "tp": 5.0,
+      "tn": 154.0,
+      "fp": 5.0,
+      "fn": 9.0,
+      "auc": 0.7551662174303684,
+      "threshold": 0.82
+    },
+    "heldout_regions": [
+      "Argentina Cordoba Plains",
+      "Bangladesh",
+      "Brazil Cerrado",
+      "Kerala",
+      "Namibia North",
+      "Pakistan Punjab",
+      "Romania Plain",
+      "South Africa Free State",
+      "Spain Drylands"
+    ]
+  },
+  "region_report": [
+    {
+      "region": "dataset_seq_forecast_v2_cluster_11",
+      "samples": 124,
+      "mean_probability": 0.3158662434547178,
+      "mean_hard_label": 0.04838709533214569,
+      "mean_soft_label": 0.28334876894950867,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_17",
+      "samples": 138,
+      "mean_probability": 0.324118510644505,
+      "mean_hard_label": 0.09420289844274521,
+      "mean_soft_label": 0.2983751595020294,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Rajasthan",
+      "samples": 2,
+      "mean_probability": 0.32517215609550476,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.3104606866836548,
+      "mean_lat": 3088560.0,
+      "mean_lon": 540720.0
+    },
+    {
+      "region": "Congo Basin",
+      "samples": 6,
+      "mean_probability": 0.3301757102211316,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.3132660388946533,
+      "mean_lat": 5129362.0,
+      "mean_lon": 540290.0
+    },
+    {
+      "region": "Argentina Cordoba Plains",
+      "samples": 18,
+      "mean_probability": 0.33437226133214104,
+      "mean_hard_label": 0.0555555559694767,
+      "mean_soft_label": 0.3418055772781372,
+      "mean_lat": 6572766.0,
+      "mean_lon": 520908.34375
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_01",
+      "samples": 139,
+      "mean_probability": 0.34383688449002,
+      "mean_hard_label": 0.10791366547346115,
+      "mean_soft_label": 0.32141345739364624,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_03",
+      "samples": 280,
+      "mean_probability": 0.40979346691497737,
+      "mean_hard_label": 0.2785714268684387,
+      "mean_soft_label": 0.39587196707725525,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_21",
+      "samples": 113,
+      "mean_probability": 0.41466695531807113,
+      "mean_hard_label": 0.3008849620819092,
+      "mean_soft_label": 0.38858914375305176,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_13",
+      "samples": 32,
+      "mean_probability": 0.4275331273674965,
+      "mean_hard_label": 0.1875,
+      "mean_soft_label": 0.4077083170413971,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Uruguay Pampas",
+      "samples": 16,
+      "mean_probability": 0.43501677457243204,
+      "mean_hard_label": 0.125,
+      "mean_soft_label": 0.46717602014541626,
+      "mean_lat": 6476531.0,
+      "mean_lon": 448525.625
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_16",
+      "samples": 43,
+      "mean_probability": 0.43602648446726244,
+      "mean_hard_label": 0.25581395626068115,
+      "mean_soft_label": 0.4008708894252777,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Spain Drylands",
+      "samples": 14,
+      "mean_probability": 0.44298020218099865,
+      "mean_hard_label": 0.1428571492433548,
+      "mean_soft_label": 0.4794357717037201,
+      "mean_lat": 4514037.5,
+      "mean_lon": 447157.84375
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_08",
+      "samples": 34,
+      "mean_probability": 0.44987770389108095,
+      "mean_hard_label": 0.2647058963775635,
+      "mean_soft_label": 0.42288336157798767,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Pakistan Punjab",
+      "samples": 6,
+      "mean_probability": 0.4707514743010203,
+      "mean_hard_label": 0.1666666716337204,
+      "mean_soft_label": 0.467244952917099,
+      "mean_lat": 3678460.0,
+      "mean_lon": 443678.34375
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_09",
+      "samples": 44,
+      "mean_probability": 0.4727258536625992,
+      "mean_hard_label": 0.3636363744735718,
+      "mean_soft_label": 0.43288496136665344,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_23",
+      "samples": 115,
+      "mean_probability": 0.4730498019767844,
+      "mean_hard_label": 0.417391300201416,
+      "mean_soft_label": 0.45775672793388367,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Brazil Cerrado",
+      "samples": 38,
+      "mean_probability": 0.4742758815225802,
+      "mean_hard_label": 0.10526315867900848,
+      "mean_soft_label": 0.5092859864234924,
+      "mean_lat": 8443057.0,
+      "mean_lon": 560054.75
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_05",
+      "samples": 15,
+      "mean_probability": 0.47854252060254415,
+      "mean_hard_label": 0.3333333432674408,
+      "mean_soft_label": 0.47027674317359924,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Botswana Margin",
+      "samples": 18,
+      "mean_probability": 0.4898543390962813,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.5382615327835083,
+      "mean_lat": 7818391.0,
+      "mean_lon": 548888.875
+    },
+    {
+      "region": "California Central Valley",
+      "samples": 4,
+      "mean_probability": 0.49933329224586487,
+      "mean_hard_label": 0.25,
+      "mean_soft_label": 0.5250223278999329,
+      "mean_lat": 4273582.5,
+      "mean_lon": 314962.5
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_02",
+      "samples": 120,
+      "mean_probability": 0.5026983729253213,
+      "mean_hard_label": 0.49166667461395264,
+      "mean_soft_label": 0.4665616452693939,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_00",
+      "samples": 166,
+      "mean_probability": 0.5135582301271967,
+      "mean_hard_label": 0.5421686768531799,
+      "mean_soft_label": 0.49240145087242126,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_22",
+      "samples": 77,
+      "mean_probability": 0.5338791328204142,
+      "mean_hard_label": 0.5324675440788269,
+      "mean_soft_label": 0.5052985548973083,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Ukraine Steppe",
+      "samples": 3,
+      "mean_probability": 0.5428098340829214,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.5361319780349731,
+      "mean_lat": 5277021.5,
+      "mean_lon": 470935.0
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_15",
+      "samples": 79,
+      "mean_probability": 0.5461500762384149,
+      "mean_hard_label": 0.6455696225166321,
+      "mean_soft_label": 0.5491113662719727,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Paraguay Chaco Edge",
+      "samples": 30,
+      "mean_probability": 0.5505621353785197,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.5033031105995178,
+      "mean_lat": 7659009.0,
+      "mean_lon": 500455.34375
+    },
+    {
+      "region": "Kerala",
+      "samples": 38,
+      "mean_probability": 0.5556590811986672,
+      "mean_hard_label": 0.02631578966975212,
+      "mean_soft_label": 0.514666736125946,
+      "mean_lat": 1335060.0,
+      "mean_lon": 690554.75
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_07",
+      "samples": 154,
+      "mean_probability": 0.56197505289471,
+      "mean_hard_label": 0.701298713684082,
+      "mean_soft_label": 0.5444208383560181,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_06",
+      "samples": 59,
+      "mean_probability": 0.5998410494145701,
+      "mean_hard_label": 0.7457627058029175,
+      "mean_soft_label": 0.5744905471801758,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_20",
+      "samples": 90,
+      "mean_probability": 0.6042485583159659,
+      "mean_hard_label": 0.8222222328186035,
+      "mean_soft_label": 0.5934401154518127,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Romania Plain",
+      "samples": 5,
+      "mean_probability": 0.6043229818344116,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.5468324422836304,
+      "mean_lat": 5017339.0,
+      "mean_lon": 566539.0
+    },
+    {
+      "region": "Western Ghats",
+      "samples": 22,
+      "mean_probability": 0.6120739795944907,
+      "mean_hard_label": 0.09090909361839294,
+      "mean_soft_label": 0.6220356822013855,
+      "mean_lat": 1561338.375,
+      "mean_lon": 610325.9375
+    },
+    {
+      "region": "Namibia North",
+      "samples": 24,
+      "mean_probability": 0.6157264945407709,
+      "mean_hard_label": 0.0416666679084301,
+      "mean_soft_label": 0.6355201601982117,
+      "mean_lat": 8069645.5,
+      "mean_lon": 645084.5625
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_04",
+      "samples": 42,
+      "mean_probability": 0.6319315341256914,
+      "mean_hard_label": 0.9285714030265808,
+      "mean_soft_label": 0.6285924911499023,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_14",
+      "samples": 135,
+      "mean_probability": 0.6496558480792576,
+      "mean_hard_label": 1.0,
+      "mean_soft_label": 0.6513099670410156,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_19",
+      "samples": 85,
+      "mean_probability": 0.6515196330407087,
+      "mean_hard_label": 0.9058823585510254,
+      "mean_soft_label": 0.6377386450767517,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "South Africa Free State",
+      "samples": 29,
+      "mean_probability": 0.6527188815947237,
+      "mean_hard_label": 0.13793103396892548,
+      "mean_soft_label": 0.6243566870689392,
+      "mean_lat": 6941297.0,
+      "mean_lon": 665317.625
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_10",
+      "samples": 112,
+      "mean_probability": 0.6661911653354764,
+      "mean_hard_label": 0.9196428656578064,
+      "mean_soft_label": 0.6421249508857727,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_12",
+      "samples": 27,
+      "mean_probability": 0.6727181728239413,
+      "mean_hard_label": 0.9629629850387573,
+      "mean_soft_label": 0.6557486057281494,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Mexico Bajio",
+      "samples": 5,
+      "mean_probability": 0.6778299808502197,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.6222075819969177,
+      "mean_lat": 2362821.0,
+      "mean_lon": 433379.0
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_18",
+      "samples": 49,
+      "mean_probability": 0.6928566840230203,
+      "mean_hard_label": 0.9795918464660645,
+      "mean_soft_label": 0.6892094612121582,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Tanzania Plateau",
+      "samples": 1,
+      "mean_probability": 0.7109791040420532,
+      "mean_hard_label": 1.0,
+      "mean_soft_label": 0.5122471451759338,
+      "mean_lat": 9455305.0,
+      "mean_lon": 735045.0
+    },
+    {
+      "region": "Bangladesh",
+      "samples": 1,
+      "mean_probability": 0.7345008850097656,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.7562499046325684,
+      "mean_lat": 2772195.0,
+      "mean_lon": 335755.0
+    }
+  ],
+  "note": "Labels in this cache are mostly proxy_only because TerraClimate targets were unavailable during collection."
+}

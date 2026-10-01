@@ -1,0 +1,109 @@
+{
+  "dataset": "dataset_seq_forecast_production_real.npz",
+  "device": "cpu",
+  "lowest_predicted_regions": [
+    {
+      "region": "dataset_seq_forecast_v2_cluster_11",
+      "samples": 124,
+      "mean_probability": 0.2739408016204834,
+      "mean_confidence": 0.3994278609752655,
+      "mean_hard_label": 0.04838709533214569,
+      "mean_soft_label": 0.28334876894950867,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_17",
+      "samples": 138,
+      "mean_probability": 0.2809692323207855,
+      "mean_confidence": 0.4163583815097809,
+      "mean_hard_label": 0.09420289844274521,
+      "mean_soft_label": 0.2983751595020294,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Rajasthan",
+      "samples": 2,
+      "mean_probability": 0.2965010404586792,
+      "mean_confidence": 0.3109113276004791,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.3104606866836548,
+      "mean_lat": 3088560.0,
+      "mean_lon": 540720.0
+    },
+    {
+      "region": "Argentina Cordoba Plains",
+      "samples": 18,
+      "mean_probability": 0.29899898171424866,
+      "mean_confidence": 0.3818773925304413,
+      "mean_hard_label": 0.0555555559694767,
+      "mean_soft_label": 0.3418055772781372,
+      "mean_lat": 6572766.0,
+      "mean_lon": 520908.34375
+    },
+    {
+      "region": "Congo Basin",
+      "samples": 6,
+      "mean_probability": 0.2992640435695648,
+      "mean_confidence": 0.43949028849601746,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.3132660388946533,
+      "mean_lat": 5129362.0,
+      "mean_lon": 540290.0
+    }
+  ],
+  "highest_predicted_regions": [
+    {
+      "region": "Bangladesh",
+      "samples": 1,
+      "mean_probability": 0.7415371537208557,
+      "mean_confidence": 0.5474948883056641,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.7562499046325684,
+      "mean_lat": 2772195.0,
+      "mean_lon": 335755.0
+    },
+    {
+      "region": "Tanzania Plateau",
+      "samples": 1,
+      "mean_probability": 0.719804584980011,
+      "mean_confidence": 0.3438108265399933,
+      "mean_hard_label": 1.0,
+      "mean_soft_label": 0.5122471451759338,
+      "mean_lat": 9455305.0,
+      "mean_lon": 735045.0
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_18",
+      "samples": 49,
+      "mean_probability": 0.718573272228241,
+      "mean_confidence": 0.40324583649635315,
+      "mean_hard_label": 0.9795918464660645,
+      "mean_soft_label": 0.6892094612121582,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "dataset_seq_forecast_v2_cluster_12",
+      "samples": 27,
+      "mean_probability": 0.6996214985847473,
+      "mean_confidence": 0.37919333577156067,
+      "mean_hard_label": 0.9629629850387573,
+      "mean_soft_label": 0.6557486057281494,
+      "mean_lat": NaN,
+      "mean_lon": NaN
+    },
+    {
+      "region": "Mexico Bajio",
+      "samples": 5,
+      "mean_probability": 0.692520260810852,
+      "mean_confidence": 0.3321376144886017,
+      "mean_hard_label": 0.0,
+      "mean_soft_label": 0.6222075819969177,
+      "mean_lat": 2362821.0,
+      "mean_lon": 433379.0
+    }
+  ],
+  "note": "Results are ranked on actual cached regions and should be interpreted alongside sample count and proxy-vs-real label availability."
+}

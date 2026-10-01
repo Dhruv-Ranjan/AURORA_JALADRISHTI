@@ -1,0 +1,75 @@
+{
+  "config": {
+    "master_seed": 20260910,
+    "monte_carlo_runs": 24,
+    "duration_days": 3.0,
+    "decision_step_s": 600.0,
+    "grid_lat": 12,
+    "grid_lon": 24,
+    "fov_off_nadir_deg": 34.0,
+    "observation_noise": 0.045,
+    "success_probability_clear": 0.985,
+    "cloud_measurement_multiplier": 1.6,
+    "cloud_forecast_skill": 0.67,
+    "cloud_persistence": 0.8,
+    "cloud_base_probability": 0.24,
+    "process_noise": 0.003,
+    "process_variance": 0.0002,
+    "min_variance": 1e-05,
+    "max_variance": 0.5,
+    "battery_capacity_wh": 55.0,
+    "initial_soc": 0.8,
+    "minimum_soc": 0.2,
+    "storage_capacity_mb": 96.0,
+    "image_data_mb": 8.0,
+    "observation_energy_wh": 1.5,
+    "compute_energy_wh": 0.35,
+    "downlink_rate_mb_s": 0.1,
+    "base_load_w": 7.0,
+    "downlink_power_w": 18.0,
+    "bootstrap_samples": 4000,
+    "output_directory": "aurora_publication_results"
+  },
+  "scenarios": [
+    {
+      "name": "nominal",
+      "description": "Balanced power, storage and cloud regime.",
+      "battery_scale": 1.0,
+      "storage_scale": 1.0,
+      "energy_scale": 1.0,
+      "data_scale": 1.0,
+      "downlink_scale": 1.0,
+      "cloud_probability_scale": 1.0
+    },
+    {
+      "name": "battery_stress",
+      "description": "Reduced battery and higher imaging energy; power feasibility must matter.",
+      "battery_scale": 0.55,
+      "storage_scale": 1.0,
+      "energy_scale": 1.45,
+      "data_scale": 1.0,
+      "downlink_scale": 1.0,
+      "cloud_probability_scale": 1.0
+    },
+    {
+      "name": "storage_stress",
+      "description": "Small recorder, larger products and restricted downlink throughput.",
+      "battery_scale": 1.0,
+      "storage_scale": 0.3,
+      "energy_scale": 1.0,
+      "data_scale": 1.55,
+      "downlink_scale": 0.35,
+      "cloud_probability_scale": 1.0
+    },
+    {
+      "name": "cloud_stress",
+      "description": "Frequent, persistent cloud with imperfect forecast information.",
+      "battery_scale": 1.0,
+      "storage_scale": 1.0,
+      "energy_scale": 1.0,
+      "data_scale": 1.0,
+      "downlink_scale": 1.0,
+      "cloud_probability_scale": 1.75
+    }
+  ]
+}
