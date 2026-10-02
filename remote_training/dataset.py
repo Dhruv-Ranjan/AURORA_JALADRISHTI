@@ -119,6 +119,8 @@ class RemoteWindowReader:
             raise RuntimeError("missing_bands") from exc
         except (OSError, TimeoutError, ConnectionError) as exc:
             raise RuntimeError("network") from exc
+        except ValueError as exc:
+            raise RuntimeError("quality") from exc
 
         scl = np.where(np.isfinite(arrays["SCL"]), np.rint(arrays["SCL"]), -1).astype(np.int16)
         valid = np.isfinite(arrays["B02"])
@@ -230,7 +232,9 @@ def discover_samples(config: RemoteTrainingConfig) -> list[RemoteSample]:
             signed = planetary_computer.sign(item)
             if any(band not in signed.assets for band in REQUIRED_BANDS):
                 continue
-            bbox = region["bbox"]
+            bbox = signed.bbox or region["bbox"]
+            if len(bbox) != 4:
+                continue
             for patch_index in range(config.patches_per_item):
                 digest = hashlib.sha256(f"{signed.id}:{patch_index}".encode("utf-8")).digest()
                 u_lon = int.from_bytes(digest[:8], "big") / 2**64
