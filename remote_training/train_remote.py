@@ -5,6 +5,7 @@ import importlib
 import json
 import logging
 import random
+import shutil
 import time
 from dataclasses import asdict
 from pathlib import Path
@@ -112,6 +113,7 @@ def train(config: RemoteTrainingConfig, model_factory: Callable[[], torch.nn.Mod
             break
 
     elapsed = max(time.monotonic() - started, 1e-9)
+    config.output_directory.mkdir(parents=True, exist_ok=True)
     report = {
         "config": asdict(config),
         "device": str(device),
@@ -122,9 +124,9 @@ def train(config: RemoteTrainingConfig, model_factory: Callable[[], torch.nn.Mod
         "samples_per_second": source.accounting.valid_samples / elapsed,
         "cache_bytes": source.reader.cache.usage_bytes(),
         "peak_cache_bytes": source.reader.cache.peak_bytes,
+        "disk_free_bytes": shutil.disk_usage(config.output_directory).free,
         "accounting": source.accounting.as_dict(),
     }
-    config.output_directory.mkdir(parents=True, exist_ok=True)
     (config.output_directory / "training_report.json").write_text(
         json.dumps(report, indent=2, default=str), encoding="utf-8"
     )
@@ -143,6 +145,10 @@ def main() -> None:
     parser.add_argument("--target-valid-samples", type=int, default=1000)
     parser.add_argument("--regions-json", type=Path, required=True)
     parser.add_argument("--cache-size-gb", type=float, default=2.0)
+    parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--num-workers", type=int, default=0)
+    parser.add_argument("--patches-per-item", type=int, default=8)
+    parser.add_argument("--manifest", type=Path, default=Path("remote_samples.jsonl"))
     parser.add_argument("--checkpoint", type=Path, default=Path("remote_spectral_checkpoint.pt"))
     parser.add_argument("--output-dir", type=Path, default=Path("remote_training_results"))
     parser.add_argument("--epochs", type=int, default=1)
@@ -151,6 +157,10 @@ def main() -> None:
     config = RemoteTrainingConfig(
         target_valid_samples=args.target_valid_samples,
         cache_size_gb=args.cache_size_gb,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+        patches_per_item=args.patches_per_item,
+        manifest_path=args.manifest,
         checkpoint_path=args.checkpoint,
         output_directory=args.output_dir,
         epochs=args.epochs,

@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import logging
 import random
+import json
+import hashlib
+import time
 from dataclasses import dataclass
 from typing import Iterator
 from io import BytesIO
@@ -55,24 +58,42 @@ class RemoteWindowReader:
         if cached is not None:
             return np.load(BytesIO(cached), allow_pickle=False)
 
-        with self._open(href) as source:
-            xs, ys = transform("EPSG:4326", source.crs, [longitude], [latitude])
-            row, col = source.index(xs[0], ys[0])
-            half = size // 2
-            window = Window(col - half, row - half, size, size)
-            if window.col_off < 0 or window.row_off < 0:
-                raise ValueError("window outside raster")
-            data = source.read(
-                1,
-                window=window,
-                out_shape=(size, size),
-                boundless=False,
-                masked=True,
-            )
-            if np.ma.isMaskedArray(data):
-                result = data.filled(np.nan).astype(np.float32)
-            else:
-                result = np.asarray(data, dtype=np.float32)
+        last_error: Exception | None = None
+        for attempt in range(self.config.max_retries + 1):
+            try:
+                with self._open(href) as source:
+                    xs, ys = transform("EPSG:4326", source.crs, [longitude], [latitude])
+                    row, col = source.index(xs[0], ys[0])
+                    half = size // 2
+                    window = Window(col - half, row - half, size, size)
+                    if (
+                        window.col_off < 0
+                        or window.row_off < 0
+                        or window.col_off + size > source.width
+                        or window.row_off + size > source.height
+                    ):
+                        raise ValueError("window outside raster")
+                    data = source.read(
+                        1,
+                        window=window,
+                        out_shape=(size, size),
+                        boundless=False,
+                        masked=True,
+                    )
+                    if np.ma.isMaskedArray(data):
+                        result = data.filled(np.nan).astype(np.float32)
+                    else:
+                        result = np.asarray(data, dtype=np.float32)
+                break
+            except (OSError, TimeoutError, ConnectionError, ValueError) as exc:
+                last_error = exc
+                if attempt >= self.config.max_retries:
+                    if isinstance(exc, ValueError):
+                        raise
+                    raise RuntimeError("network") from exc
+                time.sleep(self.config.retry_backoff_seconds * (2**attempt))
+        else:
+            raise RuntimeError("network") from last_error
         buffer = BytesIO()
         np.save(buffer, result, allow_pickle=False)
         self.cache.put(cache_key, buffer.getvalue(), ".npy")
@@ -126,6 +147,9 @@ class RemoteSequenceDataset:
         self.reader = RemoteWindowReader(config)
         self.accounting = SampleAccounting()
         self._rng = random.Random(config.seed)
+        self._seen: set[tuple[str, float, float]] = set()
+        self._manifest = config.manifest_path
+        self._manifest.parent.mkdir(parents=True, exist_ok=True)
 
     def __iter__(self) -> Iterator[dict[str, object]]:
         order = list(self.samples)
@@ -135,6 +159,11 @@ class RemoteSequenceDataset:
             if self.accounting.valid_samples >= target:
                 break
             self.accounting.replacement_candidates_requested += 1
+            key = (sample.item_id, sample.longitude, sample.latitude)
+            if key in self._seen:
+                self.accounting.record("duplicate")
+                continue
+            self._seen.add(key)
             try:
                 rgb, target_spec = self.reader.read(sample)
             except RuntimeError as exc:
@@ -145,6 +174,22 @@ class RemoteSequenceDataset:
                 self.accounting.record("other")
                 continue
             self.accounting.record(None)
+            with self._manifest.open("a", encoding="utf-8") as handle:
+                handle.write(
+                    json.dumps(
+                        {
+                            "item_id": sample.item_id,
+                            "region": sample.region,
+                            "acquired": sample.acquired,
+                            "longitude": sample.longitude,
+                            "latitude": sample.latitude,
+                            "split": "train",
+                            "bands": list(REQUIRED_BANDS),
+                            "patch_size": self.config.patch_size,
+                        }
+                    )
+                    + "\n"
+                )
             yield {
                 "rgb": rgb,
                 "target": target_spec,
@@ -185,16 +230,21 @@ def discover_samples(config: RemoteTrainingConfig) -> list[RemoteSample]:
             signed = planetary_computer.sign(item)
             if any(band not in signed.assets for band in REQUIRED_BANDS):
                 continue
-            discovered.append(
-                RemoteSample(
-                    item_id=signed.id,
-                    region=str(region["name"]),
-                    acquired=signed.datetime.isoformat() if signed.datetime else "",
-                    longitude=float(sum(region["bbox"][::2]) / 2),
-                    latitude=float(sum(region["bbox"][1::2]) / 2),
-                    asset_hrefs={band: signed.assets[band].href for band in REQUIRED_BANDS},
+            bbox = region["bbox"]
+            for patch_index in range(config.patches_per_item):
+                digest = hashlib.sha256(f"{signed.id}:{patch_index}".encode("utf-8")).digest()
+                u_lon = int.from_bytes(digest[:8], "big") / 2**64
+                u_lat = int.from_bytes(digest[8:16], "big") / 2**64
+                discovered.append(
+                    RemoteSample(
+                        item_id=f"{signed.id}#patch-{patch_index}",
+                        region=str(region["name"]),
+                        acquired=signed.datetime.isoformat() if signed.datetime else "",
+                        longitude=float(bbox[0] + u_lon * (bbox[2] - bbox[0])),
+                        latitude=float(bbox[1] + u_lat * (bbox[3] - bbox[1])),
+                        asset_hrefs={band: signed.assets[band].href for band in REQUIRED_BANDS},
+                    )
                 )
-            )
-            if config.max_candidates and len(discovered) >= config.max_candidates:
-                return discovered
+                if config.max_candidates and len(discovered) >= config.max_candidates:
+                    return discovered[: config.max_candidates]
     return discovered

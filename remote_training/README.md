@@ -6,10 +6,17 @@ Microsoft Planetary Computer. Discovery requests STAC metadata only.
 `rasterio.read(window=...)`; it never falls back to downloading a complete
 scene.
 
+The 10 m bands (B02, B03, B04, B08) define the 64 x 64 grid. B11, B12, and
+SCL are read at native 20 m resolution and aligned with nearest-neighbour
+expansion. The SCL mask is applied before reflectance normalization, retaining
+categorical quality information without inventing sub-pixel detail.
+
 The iterator counts valid training samples after retrieval and validation.
 Rejected candidates are classified, and iteration continues through the
 candidate pool until `target_valid_samples` is reached or the pool is
 exhausted. A bounded access-time cache is optional and has a hard byte limit.
+Several deterministic windows are proposed per STAC item so a large sample
+budget does not require pretending that one scene is one training sample.
 
 ## Metadata smoke test
 

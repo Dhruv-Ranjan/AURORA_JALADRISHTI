@@ -18,6 +18,9 @@ class SampleAccounting:
     network_failures: int = 0
     other_failures: int = 0
     replacement_candidates_requested: int = 0
+    duplicate_rejected: int = 0
+    geographic_balance_rejections: int = 0
+    temporal_balance_rejections: int = 0
 
     def record(self, reason: str | None) -> None:
         self.candidates_examined += 1
@@ -31,6 +34,9 @@ class SampleAccounting:
             "invalid_pixels": "invalid_pixels",
             "label": "label_unavailable",
             "network": "network_failures",
+            "duplicate": "duplicate_rejected",
+            "geographic_balance": "geographic_balance_rejections",
+            "temporal_balance": "temporal_balance_rejections",
         }.get(reason, "other_failures")
         setattr(self, field, getattr(self, field) + 1)
 

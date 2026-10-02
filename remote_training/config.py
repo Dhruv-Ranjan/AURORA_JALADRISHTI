@@ -18,6 +18,7 @@ class RemoteTrainingConfig:
     max_gap_days: int = 240
     target_valid_samples: int = 1000
     max_candidates: int = 0
+    patches_per_item: int = 8
     max_retries: int = 4
     request_timeout_seconds: float = 60.0
     retry_backoff_seconds: float = 1.0
@@ -51,3 +52,7 @@ class RemoteTrainingConfig:
             raise ValueError("cache_size_gb must not be negative")
         if self.max_retries < 0:
             raise ValueError("max_retries must not be negative")
+        if self.batch_size <= 0 or self.num_workers < 0:
+            raise ValueError("batch_size must be positive and num_workers non-negative")
+        if self.patches_per_item <= 0:
+            raise ValueError("patches_per_item must be positive")

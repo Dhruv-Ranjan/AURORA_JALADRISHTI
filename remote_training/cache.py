@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import os
-import time
 from pathlib import Path
 
 
@@ -36,7 +35,9 @@ class BoundedFileCache:
         if not self.enabled or len(value) > self.limit_bytes:
             return
         path = self.path_for(key, suffix)
-        path.write_bytes(value)
+        temporary = path.with_suffix(path.suffix + ".tmp")
+        temporary.write_bytes(value)
+        temporary.replace(path)
         self._peak_bytes = max(self._peak_bytes, self.usage_bytes())
         self.evict()
 
@@ -50,7 +51,7 @@ class BoundedFileCache:
             files = [path for path in self.directory.iterdir() if path.is_file()]
             if not files:
                 return
-            oldest = min(files, key=lambda path: path.stat().st_atime)
+            oldest = min(files, key=lambda path: path.stat().st_mtime_ns)
             oldest.unlink(missing_ok=True)
 
     @property
