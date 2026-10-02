@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import time
 from pathlib import Path
 
 
@@ -13,6 +14,8 @@ class BoundedFileCache:
         self.limit_bytes = max(0, int(limit_bytes))
         self.enabled = enabled and self.limit_bytes > 0
         self._peak_bytes = 0
+        self._counter = 0
+        self._access_order: dict[Path, int] = {}
         if self.enabled:
             self.directory.mkdir(parents=True, exist_ok=True)
 
@@ -26,7 +29,9 @@ class BoundedFileCache:
         path = self.path_for(key, suffix)
         try:
             value = path.read_bytes()
-            os.utime(path, None)
+            self._counter += 1
+            self._access_order[path] = self._counter
+            os.utime(path, (time.time(), time.time()))
             return value
         except FileNotFoundError:
             return None
@@ -38,6 +43,8 @@ class BoundedFileCache:
         temporary = path.with_suffix(path.suffix + ".tmp")
         temporary.write_bytes(value)
         temporary.replace(path)
+        self._counter += 1
+        self._access_order[path] = self._counter
         self._peak_bytes = max(self._peak_bytes, self.usage_bytes())
         self.evict()
 
@@ -51,8 +58,12 @@ class BoundedFileCache:
             files = [path for path in self.directory.iterdir() if path.is_file()]
             if not files:
                 return
-            oldest = min(files, key=lambda path: path.stat().st_mtime_ns)
+            oldest = min(
+                files,
+                key=lambda path: self._access_order.get(path, path.stat().st_mtime_ns),
+            )
             oldest.unlink(missing_ok=True)
+            self._access_order.pop(oldest, None)
 
     @property
     def peak_bytes(self) -> int:

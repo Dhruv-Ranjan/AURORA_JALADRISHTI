@@ -53,7 +53,11 @@ def _collate(rows: list[dict[str, object]]) -> tuple[torch.Tensor, torch.Tensor]
     )
 
 
-def train(config: RemoteTrainingConfig, model_factory: Callable[[], torch.nn.Module]) -> dict[str, object]:
+def train(
+    config: RemoteTrainingConfig,
+    model_factory: Callable[[], torch.nn.Module],
+    initial_checkpoint: Path | None = None,
+) -> dict[str, object]:
     config.validate()
     _seed(config.seed)
     device = torch.device(config.cuda_device if torch.cuda.is_available() else "cpu")
@@ -75,6 +79,10 @@ def train(config: RemoteTrainingConfig, model_factory: Callable[[], torch.nn.Mod
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
     scaler = torch.amp.GradScaler("cuda", enabled=config.mixed_precision and device.type == "cuda")
     start_epoch = 0
+    if initial_checkpoint is not None:
+        initial = torch.load(initial_checkpoint, map_location=device, weights_only=False)
+        state = initial.get("model_state_dict", initial.get("model", initial))
+        model.load_state_dict(state)
     config.checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
     if config.checkpoint_path.exists():
         checkpoint = torch.load(config.checkpoint_path, map_location=device, weights_only=False)
@@ -150,6 +158,7 @@ def main() -> None:
     parser.add_argument("--patches-per-item", type=int, default=8)
     parser.add_argument("--manifest", type=Path, default=Path("remote_samples.jsonl"))
     parser.add_argument("--checkpoint", type=Path, default=Path("remote_spectral_checkpoint.pt"))
+    parser.add_argument("--initial-checkpoint", type=Path, default=None)
     parser.add_argument("--output-dir", type=Path, default=Path("remote_training_results"))
     parser.add_argument("--epochs", type=int, default=1)
     args = parser.parse_args()
@@ -167,7 +176,7 @@ def main() -> None:
         regions=regions,
     )
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    train(config, load_factory(args.model_factory))
+    train(config, load_factory(args.model_factory), args.initial_checkpoint)
 
 
 if __name__ == "__main__":
