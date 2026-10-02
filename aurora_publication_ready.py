@@ -1,22 +1,10 @@
 #!/usr/bin/env python3
-"""AURORA: reproducible, scenario-based adaptive EO scheduling experiments.
+"""Run reproducible AURORA mission-scheduling experiments.
 
-This is a research simulator, not flight software and not a claim of mission
-qualification.  It is deliberately separate from ``auroraV4-10.py`` so the
-original results remain reproducible.  This version is designed to make a
-defensible *algorithmic* paper possible by providing:
-
-* independent campaign priorities (no priority is derived from latent truth),
-* a forecast-only cloud input (the scheduler never reads current cloud truth),
-* a genuinely random policy and stronger myopic/resource-aware baselines,
-* matched stochastic environments and common random numbers per opportunity,
-* multiple nominal and resource-stress scenarios,
-* resource constraints that can reject decisions,
-* all-seed ablations, paired bootstrap confidence intervals, run identifiers,
-  calibration diagnostics, and machine-readable outputs.
-
-Run a fast smoke experiment with ``py -3 aurora_publication_ready.py --quick``.
-Run the full experiment with ``py -3 aurora_publication_ready.py``.
+The simulator evaluates forecast-only scheduling policies under matched
+stochastic environments, resource constraints, stress scenarios, and
+machine-readable reporting. It is an algorithmic simulator, not flight
+software.
 """
 
 from __future__ import annotations

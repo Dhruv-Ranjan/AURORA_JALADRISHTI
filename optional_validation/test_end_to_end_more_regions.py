@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""
-Extended real place drought test.
-
-Fetches actual Sentinel-2 imagery for a broader set of named regions and runs
-the production spectral + drought pipeline on real image patches.
-"""
+"""Run optional real-region Sentinel-2 drought validation."""
 
 import csv
 import itertools

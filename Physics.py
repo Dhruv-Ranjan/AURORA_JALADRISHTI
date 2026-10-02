@@ -1,17 +1,6 @@
 
 #!/usr/bin/env python3
-"""
-AURORA V1-V3
-Physics foundation for an autonomous Earth-observation satellite simulator.
-
-V1: two-body orbital dynamics + RK4
-V2: Earth rotation, geodetic ground track, Sun geometry, eclipse,
-    ground-station access
-V3: attitude-independent power budget, battery, thermal, storage, downlink,
-    simple observation opportunities and validation
-
-This is intentionally a foundation, not the research planner.
-"""
+"""Orbital, power, thermal, and access models for the AURORA simulator."""
 
 from __future__ import annotations
 
