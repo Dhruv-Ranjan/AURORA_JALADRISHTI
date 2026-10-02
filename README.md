@@ -2,7 +2,9 @@
 
 This folder contains the publishable, separable materials for the synthetic
 AURORA mission-scheduling experiment described in the AURORA-SR manuscript.
-The manuscript itself is intentionally not included.
+The manuscript itself is intentionally not included. The release is designed
+to make the reported simulator results independently inspectable without
+publishing private or unnecessarily sensitive project material.
 
 ## Contents
 
@@ -12,18 +14,29 @@ The manuscript itself is intentionally not included.
   figures, and the executed experiment report.
 - `validation_artifacts/` — selected summary artifacts for the related
   validation runs.
+- `verify_release.py` — checks the release structure and recorded outputs.
+- `PROVENANCE.md` — scope, exclusions, and release-history information.
 
 ## Running the experiment
 
-Install Python 3.10+ with NumPy, Matplotlib, and SciPy, then run:
+Install Python 3.10+ and the dependencies in `requirements.txt`, then run:
 
-```text
+```bash
+python -m pip install -r requirements.txt
 python aurora_publication_ready.py --quick
 python aurora_publication_ready.py
+python verify_release.py
 ```
 
 The quick run is only a smoke test. The full run writes a new results
 directory and may take substantially longer.
+
+## Continuous verification
+
+Every push is checked by the GitHub Actions workflow in
+`.github/workflows/verify.yml`. CI runs the quick simulator mode and the
+release-structure verification; it does not overwrite the checked-in full
+results.
 
 ## Deliberate exclusions
 
