@@ -1,0 +1,20 @@
+[
+  {"name": "western_ghats", "bbox": [75.7, 11.15, 76.05, 11.85]},
+  {"name": "rajasthan", "bbox": [70.8, 27.0, 71.55, 27.85]},
+  {"name": "kerala", "bbox": [76.0, 9.5, 76.8, 10.8]},
+  {"name": "bangladesh_delta", "bbox": [90.0, 22.2, 90.8, 23.2]},
+  {"name": "congo_basin", "bbox": [16.0, -1.0, 18.0, 1.0]},
+  {"name": "spain_drylands", "bbox": [-4.4, 39.0, -3.2, 39.9]},
+  {"name": "namibia_north", "bbox": [15.0, -19.5, 17.0, -18.0]},
+  {"name": "south_africa_free_state", "bbox": [25.0, -29.8, 27.5, -28.0]},
+  {"name": "morocco_atlas", "bbox": [-8.1, 31.0, -4.0, 33.5]},
+  {"name": "turkey_anatolia", "bbox": [27.0, 36.5, 35.5, 42.0]},
+  {"name": "kenya_rift", "bbox": [35.5, -1.5, 38.5, 2.5]},
+  {"name": "maharashtra", "bbox": [73.5, 17.0, 79.5, 22.5]},
+  {"name": "argentina_pampas", "bbox": [-65.0, -39.0, -58.0, -32.0]},
+  {"name": "brazil_cerrado", "bbox": [-52.0, -18.0, -43.0, -10.0]},
+  {"name": "murray_darling", "bbox": [141.0, -36.5, 151.0, -32.0]},
+  {"name": "mexico_sonora", "bbox": [-112.5, 27.0, -108.0, 32.0]},
+  {"name": "california_valley", "bbox": [-122.5, 35.0, -118.0, 39.5]},
+  {"name": "chile_central", "bbox": [-71.5, -34.0, -70.0, -31.0]}
+]
