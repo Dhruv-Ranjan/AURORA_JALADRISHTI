@@ -2,8 +2,12 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+.aurora_remote_cache/
+*.npy
 *.db
 *.pt
 *.pth
 *.npz
 *.log
+training_report.json
+checkpoints/

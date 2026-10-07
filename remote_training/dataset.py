@@ -30,6 +30,7 @@ class RemoteSample:
     longitude: float
     latitude: float
     asset_hrefs: dict[str, str]
+    item_payload: dict[str, object]
 
 
 class RemoteWindowReader:
@@ -47,6 +48,16 @@ class RemoteWindowReader:
         except ImportError as exc:
             raise RuntimeError("rasterio is required for remote window reads") from exc
         return rasterio.open(href)
+
+    def _refresh_assets(self, sample: RemoteSample) -> dict[str, str]:
+        try:
+            import planetary_computer
+            import pystac
+        except ImportError as exc:
+            raise RuntimeError("pystac and planetary-computer are required") from exc
+        item = pystac.Item.from_dict(sample.item_payload)
+        signed = planetary_computer.sign(item)
+        return {band: signed.assets[band].href for band in REQUIRED_BANDS}
 
     def _read_band(self, href: str, longitude: float, latitude: float, size: int) -> np.ndarray:
         import rasterio
@@ -81,12 +92,14 @@ class RemoteWindowReader:
                         masked=True,
                     )
                     if np.ma.isMaskedArray(data):
-                        result = data.filled(np.nan).astype(np.float32)
+                        result = data.astype(np.float32).filled(np.nan)
                     else:
                         result = np.asarray(data, dtype=np.float32)
                 break
             except (OSError, TimeoutError, ConnectionError, ValueError) as exc:
                 last_error = exc
+                if "403" in str(exc):
+                    raise RuntimeError("authorization") from exc
                 if attempt >= self.config.max_retries:
                     if isinstance(exc, ValueError):
                         raise
@@ -102,25 +115,34 @@ class RemoteWindowReader:
     def read(self, sample: RemoteSample) -> tuple[np.ndarray, np.ndarray]:
         size = self.config.patch_size
         arrays: dict[str, np.ndarray] = {}
-        try:
-            for band in REQUIRED_BANDS:
-                if band not in sample.asset_hrefs:
-                    raise KeyError(band)
-                band_size = size if band in {"B02", "B03", "B04", "B08"} else size // 2
-                arrays[band] = self._read_band(
-                    sample.asset_hrefs[band],
-                    sample.longitude,
-                    sample.latitude,
-                    band_size,
-                )
-                if band_size != size:
-                    arrays[band] = np.repeat(np.repeat(arrays[band], 2, axis=0), 2, axis=1)
-        except KeyError as exc:
-            raise RuntimeError("missing_bands") from exc
-        except (OSError, TimeoutError, ConnectionError) as exc:
-            raise RuntimeError("network") from exc
-        except ValueError as exc:
-            raise RuntimeError("quality") from exc
+        hrefs = self._refresh_assets(sample)
+        for refresh in range(self.config.max_retries + 1):
+            arrays.clear()
+            try:
+                for band in REQUIRED_BANDS:
+                    if band not in hrefs:
+                        raise KeyError(band)
+                    band_size = size if band in {"B02", "B03", "B04", "B08"} else size // 2
+                    arrays[band] = self._read_band(
+                        hrefs[band],
+                        sample.longitude,
+                        sample.latitude,
+                        band_size,
+                    )
+                    if band_size != size:
+                        arrays[band] = np.repeat(np.repeat(arrays[band], 2, axis=0), 2, axis=1)
+                break
+            except RuntimeError as exc:
+                if str(exc) != "authorization" or refresh >= self.config.max_retries:
+                    raise
+                LOGGER.warning("Refreshing signed assets after HTTP 403 for %s", sample.item_id)
+                hrefs = self._refresh_assets(sample)
+            except KeyError as exc:
+                raise RuntimeError("missing_bands") from exc
+            except (OSError, TimeoutError, ConnectionError) as exc:
+                raise RuntimeError("network") from exc
+            except ValueError as exc:
+                raise RuntimeError("quality") from exc
 
         scl = np.where(np.isfinite(arrays["SCL"]), np.rint(arrays["SCL"]), -1).astype(np.int16)
         valid = np.isfinite(arrays["B02"])
@@ -229,6 +251,7 @@ def discover_samples(config: RemoteTrainingConfig) -> list[RemoteSample]:
             query={"eo:cloud_cover": {"lt": config.cloud_cover_max}},
         )
         for item in search.items():
+            item_payload = item.to_dict()
             signed = planetary_computer.sign(item)
             if any(band not in signed.assets for band in REQUIRED_BANDS):
                 continue
@@ -247,6 +270,7 @@ def discover_samples(config: RemoteTrainingConfig) -> list[RemoteSample]:
                         longitude=float(bbox[0] + u_lon * (bbox[2] - bbox[0])),
                         latitude=float(bbox[1] + u_lat * (bbox[3] - bbox[1])),
                         asset_hrefs={band: signed.assets[band].href for band in REQUIRED_BANDS},
+                        item_payload=item_payload,
                     )
                 )
                 if config.max_candidates and len(discovered) >= config.max_candidates:
