@@ -6,3 +6,4 @@ planetary-computer==1.0.0
 rasterio==1.4.3
 pyproj==3.7.2
 torch==2.8.0
+pytest==9.1.1
