@@ -110,7 +110,7 @@ On Windows PowerShell:
 Then install dependencies:
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-research.txt
 ```
 
 Run the quick simulator smoke test:

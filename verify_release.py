@@ -9,6 +9,7 @@ REQUIRED_FILES = (
     "README.md",
     "PROVENANCE.md",
     "requirements.txt",
+    "requirements-research.txt",
     "Physics.py",
     "aurora_publication_ready.py",
     "remote_training/dataset.py",
