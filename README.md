@@ -85,8 +85,8 @@ The full figure set and CSV summaries are in [`results/`](results/).
 Clone the repository and enter the release directory:
 
 ```bash
-git clone https://github.com/Dhruv-Ranjan/ALLEN_BZ.git
-cd ALLEN_BZ/AURORA_SR_RELEASE
+https://github.com/Dhruv-Ranjan/AURORA_JALADRISHTI.git
+cd AURORA_JALADRISHTI
 ```
 
 Create a virtual environment and install the release dependencies:
