@@ -1,7 +1,13 @@
-# FINAL_PROJECT_NASA
+# AURORA-JALADRISHTI
 
-This package is the reproducible NASA Space Apps submission bundle for the
-AURORA/Jaladrishti drought-monitoring system.
+This is the public `main` branch for the NASA Space Apps AURORA/Jaladrishti
+drought-monitoring system.
+
+The project combines:
+
+1. `SpectralNetV10` RGB-to-six-band spectral reconstruction.
+2. Physics-guided temporal drought prediction.
+3. AURORA resource-aware mission planning and belief updates.
 
 ## Important data distinction
 
@@ -45,7 +51,8 @@ G:\CubeSat\.venv\Scripts\python.exe .\run_project.py
 - `artifacts\FINAL_PROJECT_NASA_report.json`: provenance and final summary.
 - `artifacts\integrated_system_results.json`: drought outputs passed through
   the AURORA mission planner and belief update.
-- `paper\AURORA_updated.tex`: manuscript updated with the verified run.
+- The complete research manuscript is maintained locally but intentionally
+  excluded from this public GitHub branch.
 
 ## Massive-data mode
 
@@ -93,8 +100,8 @@ geospatial/STAC packages listed in `requirements.txt`.
 
 Large local datasets and checkpoints are intentionally excluded from GitHub
 by `.gitignore`: the tensor cache is over 1 GB and GitHub rejects files of
-that size. The source, metrics, paper, and exact commands are versioned;
-place the local files back under `data\` and `artifacts\` before running.
+that size. Place the local files back under `data\` and `artifacts\` before
+running.
 
 The best verified production run is recorded in
 `artifacts\production_run_summary.json`. The remote massive-pretraining
