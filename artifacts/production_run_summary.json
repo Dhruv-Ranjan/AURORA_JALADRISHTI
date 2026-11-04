@@ -1,0 +1,29 @@
+{
+  "production_checkpoint_source": "spectral_v10_1_balanced.pt",
+  "dataset": "dataset_seq_forecast_production_real.npz",
+  "samples": 2552,
+  "spectral_epochs": 4,
+  "drought_epochs": 8,
+  "validation": {
+    "spectral_mae": 0.009904004633426666,
+    "spectral_rmse": 0.025234714598407842,
+    "drought_accuracy": 0.9372549019607843,
+    "drought_precision": 0.8932806324110671,
+    "drought_recall": 0.9783549783549783,
+    "drought_f1": 0.9338842975206612,
+    "drought_auc": 0.9525516299709849
+  },
+  "end_to_end": {
+    "spectral_rmse": 0.025234714598407842,
+    "drought_accuracy": 0.9361285266457681,
+    "drought_f1": 0.9324492333195192
+  },
+  "planner_integration": {
+    "selected_region": "Tanzania Plateau",
+    "feasible": true,
+    "battery_after_wh": 53.15,
+    "storage_after_mb": 8.0,
+    "belief_update_executed": true
+  },
+  "note": "The reported validation split is not geographically disjoint and labels are predominantly proxy-derived."
+}

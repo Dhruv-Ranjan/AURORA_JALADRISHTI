@@ -1,0 +1,6 @@
+.remote_cache/
+__pycache__/
+*.py[cod]
+data/*.npz
+data/*.jsonl
+artifacts/*.pt

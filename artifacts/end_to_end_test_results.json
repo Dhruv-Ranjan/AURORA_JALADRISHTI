@@ -1,0 +1,22 @@
+{
+  "dataset": "dataset_seq_forecast_production_real.npz",
+  "device": "cuda",
+  "reconstruction": {
+    "mse": 0.0006367908208630979,
+    "mae": 0.009904004633426666,
+    "rmse": 0.025234714598407842
+  },
+  "classification": {
+    "accuracy": 0.9361285266457681,
+    "precision": 0.8949880668257757,
+    "recall": 0.9731833910034602,
+    "f1": 0.9324492333195192,
+    "tp": 1125.0,
+    "tn": 1264.0,
+    "fp": 132.0,
+    "fn": 31.0,
+    "mean_probability": 0.500694990158081
+  },
+  "threshold": 0.61,
+  "note": "Evaluation uses cached real Sentinel-2 sequences. Targets may be proxy-derived where TerraClimate labels are unavailable."
+}

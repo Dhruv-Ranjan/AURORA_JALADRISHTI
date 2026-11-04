@@ -1,0 +1,30 @@
+{
+  "candidate_metadata_rows": 29487,
+  "requested_materialized_patches": 10000,
+  "validated_materialized_patches": 978,
+  "massive_spectral_model": "spectral_massive_10000.pt",
+  "massive_spectral_holdout": {
+    "mse": 0.002343829022720456,
+    "mae": 0.026261895895004272,
+    "rmse": 0.04841310903429985
+  },
+  "fine_tuned_spectral_holdout": {
+    "mse": 0.0015132931293919683,
+    "mae": 0.016312168911099434,
+    "rmse": 0.038901068486507775
+  },
+  "drought_test": {
+    "accuracy": 0.8949843260188087,
+    "precision": 0.8389312977099237,
+    "recall": 0.9506920415224913,
+    "f1": 0.8913219789132197
+  },
+  "planner_integration": {
+    "selected_region": "Tanzania Plateau",
+    "feasible": true,
+    "battery_after_wh": 53.15,
+    "storage_after_mb": 8.0,
+    "belief_update_executed": true
+  },
+  "provenance": "Manifest rows are metadata candidates; only validated persisted image patches are counted as training data."
+}
