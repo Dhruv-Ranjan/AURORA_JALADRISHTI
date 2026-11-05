@@ -226,8 +226,4 @@ If you find the project useful, the most valuable actions are:
 3. Share the repository with people working in remote sensing, drought
    monitoring, or spacecraft autonomy.
 4. Submit a small, well-tested pull request.
-5. Star the repository if it genuinely helps you; do not use automated or
-   purchased stars.
-
-These actions create genuine discoverability and useful feedback rather than
-inflating metrics.
+5. Star the repository if it genuinely helps you.
