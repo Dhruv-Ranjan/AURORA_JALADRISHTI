@@ -60,24 +60,6 @@ split is not geographically disjoint and the drought targets are
 predominantly proxy-derived. See the limitations section before interpreting
 the numbers.
 
-## Representative figures
-
-### Real-world drought forecast
-
-<p align="center">
-  <img src="AURORA/AURORA_REALWORLD_OUTPUT/02_heldout_forecast.png" alt="Held-out drought forecast" width="48%">
-  <img src="AURORA/AURORA_REALWORLD_OUTPUT/03_observed_vs_predicted.png" alt="Observed versus predicted drought values" width="48%">
-</p>
-
-### Resource-aware mission planning
-
-<p align="center">
-  <img src="AURORA/aurora_publication_results/nominal_information_gain.png" alt="Nominal information gain" width="48%">
-  <img src="AURORA/aurora_publication_results/nominal_observations.png" alt="Nominal mission observations" width="48%">
-</p>
-
-These figures are generated outputs from the tracked AURORA experiments. The
-full set of plots is available under `AURORA/`.
 
 ## Repository layout
 
