@@ -27,6 +27,18 @@ parts:
 The planner is not a neural model. It consumes drought forecast outputs from
 the learned components and turns them into an observation decision.
 
+## System overview
+
+```mermaid
+flowchart LR
+    A[RGB satellite observation] --> B[SpectralNetV10]
+    B --> C[Six-band reconstruction]
+    C --> D[Physics-guided temporal forecast]
+    D --> E[Drought-risk estimate]
+    E --> F[AURORA mission planner]
+    F --> G[Target selection and belief update]
+```
+
 ## Results from the verified production run
 
 The selected production run was trained from the stronger balanced
@@ -48,23 +60,35 @@ split is not geographically disjoint and the drought targets are
 predominantly proxy-derived. See the limitations section before interpreting
 the numbers.
 
+## Representative figures
+
+### Real-world drought forecast
+
+<p align="center">
+  <img src="AURORA/AURORA_REALWORLD_OUTPUT/02_heldout_forecast.png" alt="Held-out drought forecast" width="48%">
+  <img src="AURORA/AURORA_REALWORLD_OUTPUT/03_observed_vs_predicted.png" alt="Observed versus predicted drought values" width="48%">
+</p>
+
+### Resource-aware mission planning
+
+<p align="center">
+  <img src="AURORA/aurora_publication_results/nominal_information_gain.png" alt="Nominal information gain" width="48%">
+  <img src="AURORA/aurora_publication_results/nominal_observations.png" alt="Nominal mission observations" width="48%">
+</p>
+
+These figures are generated outputs from the tracked AURORA experiments. The
+full set of plots is available under `AURORA/`.
+
 ## Repository layout
 
 ```text
 .
-├── run_project.py                    # Train, evaluate, and run integration
-├── run_massive_project.ps1           # Retrieve patches and run ablation flow
-├── requirements.txt                  # Reproducible Python dependencies
-├── src/
-│   ├── model_defs.py                 # SpectralNetV10 architecture
-│   ├── realworld_drought_production.py
-│   ├── real_data_pipeline.py
-│   ├── integrated_mission.py         # AURORA planner and belief update
-│   ├── materialize_manifest.py       # Sentinel-2 retrieval/validation
-│   ├── train_massive_spectral.py
-│   └── test_*.py                     # Focused verification scripts
-├── artifacts/                        # Small JSON metrics and reports
-└── data/                             # Local-only datasets, not Git-tracked
+├── AURORA/                             # Mission planning and validation work
+├── FINAL_PROJECT_NASA/                 # Public end-to-end pipeline package
+├── AURORA_SR_RELEASE/                  # Spectral reconstruction release
+├── Final_Drought_Prediction_Model/     # Research and compilation materials
+├── tests/                              # Repository-level tests
+└── README.md
 ```
 
 Large checkpoints, tensor datasets, and metadata manifests are intentionally
@@ -159,11 +183,9 @@ Important reports include:
 
 - `artifacts\production_run_summary.json` — selected production run.
 - `artifacts\drought_realworld_results.json` — drought validation metrics.
-- `artifacts\end_to_end_test_results.json` — reconstruction and integrated
-  test metrics.
+- `artifacts\end_to_end_test_results.json` — reconstruction and integrated test metrics.
 - `artifacts\inference_validation_results.json` — regional inference check.
-- `artifacts\integrated_system_results.json` — planner selection and belief
-  update.
+- `artifacts\integrated_system_results.json` — planner selection and belief update.
 - `artifacts\model_comparison.json` — baseline versus production comparison.
 - `artifacts\massive_integrated_run_summary.json` — massive-data ablation.
 
@@ -226,4 +248,5 @@ If you find the project useful, the most valuable actions are:
 3. Share the repository with people working in remote sensing, drought
    monitoring, or spacecraft autonomy.
 4. Submit a small, well-tested pull request.
-5. Star the repository if it genuinely helps you.
+5. Star the repository if it genuinely helps you; do not use automated or
+   purchased stars.
